@@ -1,9 +1,11 @@
 import React, { StrictMode } from 'react'
-import style from './Header.module.css'
+import './Header.css'
 const header = props => {
   return (
-    <div className={style.Bgc}>
-      <StrictMode>{props.children}</StrictMode>
+    <div className='Bgc'>
+      <div className='Container'>
+        <StrictMode>{props.children}</StrictMode>
+      </div>
     </div>
   )
 }

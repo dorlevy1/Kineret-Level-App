@@ -2,3 +2,12 @@
     display: inline;
     margin: 0 10px;
 }
+
+.Li a {
+    text-decoration-line: none;
+    color: black;
+}
+
+.active {
+    border-bottom: 1px solid;
+}

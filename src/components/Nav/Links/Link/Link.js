@@ -1,9 +1,12 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import './Link.css'
 const link = props => {
   return (
     <li className='Li'>
-      <a href={props.linkTo}>{props.children}</a>
+      <NavLink exact activeClassName='active' to={props.linkTo}>
+        {props.children}
+      </NavLink>
     </li>
   )
 }

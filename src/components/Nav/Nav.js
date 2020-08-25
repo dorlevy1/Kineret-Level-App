@@ -1,9 +1,12 @@
 import React, { StrictMode } from 'react'
 import Links from './Links/Links'
+import './Nav.css'
 const nav = props => {
   return (
     <StrictMode>
-      <Links />
+      <nav className='Nav'>
+        <Links />
+      </nav>
     </StrictMode>
   )
 }

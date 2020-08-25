@@ -1,16 +1,14 @@
 import React, { StrictMode, Component } from 'react'
-import Nav from '../../components/Nav/Nav'
 import Header from '../../components/Header/Header'
-import Footer from '../../components/Footer/Footer'
+import Chart from '../../components/chart/chart'
 
 class Site extends Component {
   render () {
     return (
       <StrictMode>
         <Header>
-          <Nav />
+          <Chart />
         </Header>
-        <Footer />
       </StrictMode>
     )
   }

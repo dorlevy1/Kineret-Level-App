@@ -10,7 +10,11 @@ const links = props => {
     { linkTo: '/contact', value: 'Contact' }
   ]
   const showLinks = links.map(link => {
-    return <Link linkTo={link.linkTo}>{link.value}</Link>
+    return (
+      <Link key={link.value} linkTo={link.linkTo}>
+        {link.value}
+      </Link>
+    )
   })
   return (
     <div>

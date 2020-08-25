@@ -1,0 +1,37 @@
+.flex-row {
+    padding: 20px;
+    display: flex;
+    overflow: auto;
+    flex-flow: row-reverse;
+}
+
+.flex-row>p {
+    margin-right: 5px;
+}
+
+.chartjs-render-monitor {
+    /* animation: chartjs-render-animation 0.001s; */
+    border: 1px solid white;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 1px 6px #44444461;
+}
+
+.between {
+    justify-content: space-between;
+}
+
+.changing {
+    padding: 10px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 16px;
+    transition: all .4s;
+    cursor: pointer;
+    box-shadow: 0px 0px 8px rgba(65, 65, 65, 0.386);
+}
+
+.changing:hover {
+    transform: scale(0.92);
+    transition: all .4s;
+}

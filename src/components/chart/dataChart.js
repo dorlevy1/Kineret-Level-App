@@ -33,7 +33,7 @@ const datas = props => {
         {
           display: props.shows,
           gridLines: {
-            display: false
+            display: true
           }
         }
       ],

@@ -1,93 +1,24 @@
 import React, { Component } from 'react'
-import * as d3 from 'd3'
 import { Bar, Line, Pie } from 'react-chartjs-2'
-import data from '../../containers/Site/data.csv'
 import Datas from './dataChart'
 import './chart.css'
+import { connect } from 'react-redux'
+import * as funcType from '../../store/index'
 class Chart extends Component {
   state = {
-    label: [],
-    level: [],
-    backgroundColor: [],
-    labelPie: null,
-    levelPie: null,
     setChart: Line
   }
   newBar = []
   componentWillMount () {
-    const row = d => {
-      let stringLevel = d.Kinneret_Level.toString()
-      d.Kinneret_Level = stringLevel
-      return d
-    }
-
-    d3.csv(data, row).then(res => {
-      const getRandomColor = () => {
-        let letters = '0123456789ABCDEF'
-        let color = ''
-        for (var i = 0; i < 1; i++) {
-          color += letters[Math.floor(Math.random() * 16)]
-        }
-        return color
-      }
-      res.map(el => {
-        let check = el.Survey_Date.split('/')
-        check = check.slice(2).toString()
-        if (
-          el.Survey_Date === '01/1/' + check ||
-          el.Survey_Date === '01/4/' + check ||
-          el.Survey_Date === '01/7/' + check ||
-          el.Survey_Date === '01/12/' + check
-        ) {
-          let newEl = el.Survey_Date.toString().replace('01/', '')
-          let result = '#624e1' + getRandomColor().toString()
-          this.setState(state => {
-            const label = state.label.concat(newEl)
-            const level = state.level.concat(el.Kinneret_Level).reverse()
-            const backgroundColor = state.backgroundColor.concat(result)
-            return {
-              label,
-              level,
-              backgroundColor
-            }
-          })
-        }
-        return true
-      })
-    }, [])
+    this.props.onInitDataKineret()
   }
 
   changeToPai = () => {
     if (this.state.setChart === Line || this.state.setChart === Bar) {
-      let updatedArr = []
-      let levelArr = []
-      if (this.state.levelPie === null && this.state.labelPie === null) {
-        levelArr = this.state.level.map(lvl => {
-          let level = lvl.split('.')
-          level = level.splice(0, 1).toString()
-          return level
-        })
-        updatedArr = this.state.label.map(el => {
-          let ele = el.split('/')
-          ele = ele.splice(1).toString()
-          return ele
-        })
-        levelArr = levelArr.filter(function (item, index, inputArray) {
-          return inputArray.indexOf(item) === index
-        })
-        updatedArr = updatedArr.filter(function (item, index, inputArray) {
-          return inputArray.indexOf(item) === index
-        })
-        this.setState({
-          setChart: Pie,
-          labelPie: updatedArr,
-          levelPie: levelArr
-        })
-      } else {
-        this.setState({
-          setChart: Pie
-        })
-      }
+      this.props.onChoosePie(this.props.defaultLabel, this.props.defaultLevel)
+      this.setState({
+        setChart: Pie
+      })
     }
   }
   changeToLine = () => {
@@ -107,11 +38,15 @@ class Chart extends Component {
   }
   render () {
     let labelChart =
-      this.state.setChart === Pie ? this.state.labelPie : this.state.label
+      this.state.setChart === Pie
+        ? this.props.labelPie
+        : this.props.defaultLabel
     let levelChart =
-      this.state.setChart === Pie ? this.state.levelPie : this.state.level
+      this.state.setChart === Pie
+        ? this.props.levelPie
+        : this.props.defaultLevel
     let checkBackground =
-      this.state.setChart === Line ? '#824e1e3b' : this.state.backgroundColor
+      this.state.setChart === Line ? '#824e1e3b' : this.props.bgc
     let display = this.state.setChart === Pie ? false : true
     return (
       <div className='flex-row'>
@@ -140,4 +75,24 @@ class Chart extends Component {
   }
 }
 
-export default Chart
+const mapStateToProps = state => {
+  return {
+    defaultLabel: state.data.label,
+    labelPie: state.labelPie,
+    defaultLevel: state.data.level,
+    levelPie: state.levelPie,
+    bgc: state.backgroundColor
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onInitDataKineret: () => dispatch(funcType.initKineret()),
+    onChoosePie: (level, label) => dispatch(funcType.pieSelector(level, label)),
+    onShowByYear: () => dispatch({}),
+    onshowBetweenDates: () => dispatch({}),
+    onShowByDays: () => dispatch({})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chart)

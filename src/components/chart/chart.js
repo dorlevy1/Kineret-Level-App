@@ -92,18 +92,17 @@ class Chart extends Component {
   }
   changeToLine = () => {
     if (this.state.setChart === Bar || this.state.setChart === Pie) {
-      const arr = this.state.level.map(l => -+l)
+      const arr = this.state.level.map(l => l)
       this.setState({ setChart: Line, level: arr })
     }
   }
   changeToBar = () => {
     if (this.state.setChart === Line || this.state.setChart === Pie) {
-      this.setState({ setChart: Bar })
       const arr = this.state.level.map(l => {
-        l = l.toString().replace('-', '')
+        l = l.toString()
         return l
       })
-      this.setState({ level: arr })
+      this.setState({ level: arr, setChart: Bar })
     }
   }
   render () {
@@ -114,18 +113,19 @@ class Chart extends Component {
     let checkBackground =
       this.state.setChart === Line ? '#824e1e3b' : this.state.backgroundColor
     let display = this.state.setChart === Pie ? false : true
-
     return (
-      <div>
-        <div className='flex-row between'>
-          <div className='changing' onClick={this.changeToBar}>
-            Change To Bar
-          </div>
-          <div className='changing' onClick={this.changeToPai}>
-            Change To Pai
-          </div>
-          <div className='changing' onClick={this.changeToLine}>
-            Change To Line
+      <div className='flex-row'>
+        <div className='align'>
+          <div className='wrapper-changing'>
+            <div className='changing' onClick={this.changeToBar}>
+              Change To Bar
+            </div>
+            <div className='changing' onClick={this.changeToPai}>
+              Change To Pie
+            </div>
+            <div className='changing' onClick={this.changeToLine}>
+              Change To Line
+            </div>
           </div>
         </div>
         <Datas

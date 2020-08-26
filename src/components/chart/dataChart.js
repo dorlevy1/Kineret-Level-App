@@ -1,13 +1,11 @@
 import React from 'react'
-import { Bar, Line, Pie } from 'react-chartjs-2'
-
 const datas = props => {
   let datasets = [
     {
       label: 'מי הכנרת',
       yAxisID: 'y-axis-0',
 
-      fill: true,
+      fill: props.shows,
       lineTension: 0.1,
       borderColor: 'rgba(75,192,192,1)',
       borderCapStyle: 'butt',
@@ -42,10 +40,10 @@ const datas = props => {
       yAxes: [
         {
           display: props.shows,
-          gridLines: {
-            display: true
+          animation: {
+            duration: '1000'
           },
-          ticks: {
+          gridLines: {
             display: true
           }
         }
@@ -68,7 +66,6 @@ const datas = props => {
       }
     }
   }
-  console.log(options)
   return (
     <props.selectchart
       data={{

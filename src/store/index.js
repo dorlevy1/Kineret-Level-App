@@ -1,1 +1,1 @@
-export { initKineret, pieSelector } from './actions'
+export { initKineret, pieSelector, showFullYear } from './actions'

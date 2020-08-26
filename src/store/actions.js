@@ -81,3 +81,27 @@ export const pieSelector = (defaultLevel, defaultLabel) => {
   })
   return setPie(updatedArr, levelArr)
 }
+
+export const showFullYear = value => {
+  return dispatch => {
+    let surDate = []
+    let kineretDate = []
+    d3.csv(data).then(res => {
+      for (let index = 0; index < res.length; index++) {
+        if (res[index].Survey_Date.includes(value)) {
+          surDate = surDate.concat(res[index].Survey_Date)
+          kineretDate = kineretDate.concat(res[index].Kinneret_Level)
+          dispatch(setKineret(surDate, kineretDate))
+        }
+      }
+    })
+  }
+
+  //   let updatedArr = []
+  //   updatedArr = defaultLabel.map(el => {
+  //     let ele = el.split('/')
+  //     ele = ele.splice(1).toString()
+  //     return ele
+  //   })
+  //   console.log(updatedArr)
+}

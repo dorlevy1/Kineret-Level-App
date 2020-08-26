@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 import * as funcType from '../../store/index'
 class Chart extends Component {
   state = {
-    setChart: Line
+    setChart: Line,
+    value: ''
   }
   newBar = []
   componentWillMount () {
@@ -23,17 +24,18 @@ class Chart extends Component {
   }
   changeToLine = () => {
     if (this.state.setChart === Bar || this.state.setChart === Pie) {
-      const arr = this.state.level.map(l => l)
-      this.setState({ setChart: Line, level: arr })
+      this.setState({ setChart: Line })
     }
   }
   changeToBar = () => {
     if (this.state.setChart === Line || this.state.setChart === Pie) {
-      const arr = this.state.level.map(l => {
-        l = l.toString()
-        return l
-      })
-      this.setState({ level: arr, setChart: Bar })
+      this.setState({ setChart: Bar })
+    }
+  }
+  showFullYear = e => {
+    if (e.target.value.length > 3) {
+      this.setState({ value: e.target.value })
+      this.props.onShowFullYear(e.target.value)
     }
   }
   render () {
@@ -60,6 +62,9 @@ class Chart extends Component {
             </div>
             <div className='changing' onClick={this.changeToLine}>
               Change To Line
+            </div>
+            <div>
+              <input type='text' onChange={e => this.showFullYear(e)} />
             </div>
           </div>
         </div>
@@ -89,9 +94,10 @@ const mapDispatchToProps = dispatch => {
   return {
     onInitDataKineret: () => dispatch(funcType.initKineret()),
     onChoosePie: (level, label) => dispatch(funcType.pieSelector(level, label)),
-    onShowByYear: () => dispatch({}),
-    onshowBetweenDates: () => dispatch({}),
-    onShowByDays: () => dispatch({})
+    onShowFullYear: e => dispatch(funcType.showFullYear(e))
+    // onShowByYear: () => dispatch({}),
+    // onshowBetweenDates: () => dispatch({}),
+    // onShowByDays: () => dispatch({})
   }
 }
 

@@ -22,13 +22,16 @@ const reducer = (state = initialState, action) => {
         backgroundColor: action.backgroundColor
       }
     case actionType.SET_PIE:
-      console.log(state)
       return {
         ...state,
         labelPie: action.labelPie,
         levelPie: action.levelPie
         // backgroundColor: action.backgroundColor
       }
+    // case actionType.CHOOSE_YEAR:
+    //   return {
+    //     ...state
+    //   }
     default:
       return state
   }

@@ -1,7 +1,6 @@
 import * as actionType from './actionType'
 import * as d3 from 'd3'
 import data from '../containers/Site/data.csv'
-import { dispatch } from 'd3'
 
 export const setKineret = (label, level, bgc) => {
   return {
@@ -116,19 +115,30 @@ export const showFullYear = value => {
   }
 }
 
-export const chooseRangeDate = start => {
+export const chooseRangeDate = (start, end) => {
   return dispatch => {
     let f = []
     let l = []
     d3.csv(data).then(res => {
       for (let index = 0; index < res.length; index++) {
-        if (res[index].Survey_Date === start) {
-          return false
-        } else {
-          l = l.concat(res[index].Kinneret_Level)
-          f = f.concat(res[index].Survey_Date)
-          //   console.log(f)
-          //   dispatch(setBetweenDates(f, l))
+        if (end[0].end !== null) {
+          let newEnd = end[0].end
+            .toLocaleDateString('he-IL', {
+              day: '2-digit',
+              year: 'numeric',
+              month: 'numeric'
+            })
+            .replace('.', '/')
+            .replace('.', '/')
+          if (
+            res[index].Survey_Date === start ||
+            res[index].Survey_Date === newEnd
+          ) {
+            l = l.concat(res[index].Kinneret_Level)
+            f = f.concat(res[index].Survey_Date)
+            console.log(f)
+            dispatch(setKineret(f, l))
+          }
         }
       }
     })

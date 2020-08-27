@@ -11,8 +11,8 @@ class Chart extends Component {
   state = {
     setChart: Line,
     value: {
-      start: [],
-      end: null
+      start: new Date(),
+      end: new Date()
     }
   }
   componentWillMount () {
@@ -47,28 +47,21 @@ class Chart extends Component {
   }
 
   handleChange = e => {
-    let start = []
-    let strValue = e.target.value.start.toLocaleDateString('he-IL', {
-      day: '2-digit',
-      year: 'numeric',
-      month: 'numeric'
-    })
-    start = start
-      .concat(strValue)
-      .toString()
+    this.setState({ value: e.target.value })
+    let start = [e.target.value]
+    let end = [e.target.value]
+    start = start[0].start
+      .toLocaleDateString('he-IL', {
+        day: '2-digit',
+        year: 'numeric',
+        month: 'numeric'
+      })
       .replace('.', '/')
       .replace('.', '/')
-    this.setState(state => {
-      return {
-        ...state,
-        ...state.value,
-        value: { start: start }
-      }
-    })
-    return this.props.onshowBetweenDates(start)
+    this.props.onshowBetweenDates(start, end)
   }
+
   render () {
-    console.log(this.props)
     let labelChart =
       this.state.setChart === Pie
         ? this.props.labelPie
@@ -96,7 +89,11 @@ class Chart extends Component {
             <div>
               <input type='text' onChange={e => this.showFullYear(e)} />
             </div>
-            <DateRangePicker format='dd.M.yyyy' onChange={this.handleChange} />
+            <DateRangePicker
+              value={this.state.value}
+              format='dd.M.yyyy'
+              onChange={this.handleChange}
+            />
           </div>
         </div>
 
@@ -129,8 +126,6 @@ const mapDispatchToProps = dispatch => {
     onShowFullYear: e => dispatch(funcType.showFullYear(e)),
     onshowBetweenDates: (start, end) =>
       dispatch(funcType.chooseRangeDate(start, end))
-    // onShowByYear: () => dispatch({}),
-    // onShowByDays: () => dispatch({})
   }
 }
 

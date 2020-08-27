@@ -51,7 +51,7 @@
     border-radius: 5px;
     width: 100%;
     background: #ffffffb8;
-    height: 29%;
+    min-height: 29%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

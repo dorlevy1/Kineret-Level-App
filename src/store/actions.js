@@ -1,6 +1,7 @@
 import * as actionType from './actionType'
 import * as d3 from 'd3'
 import data from '../containers/Site/data.csv'
+import { dispatch } from 'd3'
 
 export const setKineret = (label, level, bgc) => {
   return {
@@ -10,13 +11,19 @@ export const setKineret = (label, level, bgc) => {
     backgroundColor: bgc
   }
 }
+export const setBetweenDates = (label, level) => {
+  return {
+    type: actionType.CHOOSE_BETWEEN_DAY_TO_DAY,
+    label: label,
+    level: level
+  }
+}
 
 export const setPie = (pieLabel, pieLevel) => {
   return {
     type: actionType.SET_PIE,
     labelPie: pieLabel,
     levelPie: pieLevel
-    // backgroundColor: bgc
   }
 }
 
@@ -85,23 +92,45 @@ export const pieSelector = (defaultLevel, defaultLabel) => {
 export const showFullYear = value => {
   return dispatch => {
     let surDate = []
+    let bgc = []
     let kineretDate = []
+    const getRandomColor = () => {
+      let letters = '0123456789ABCDEF'
+      let color = ''
+      for (var i = 0; i < 1; i++) {
+        color += letters[Math.floor(Math.random() * 16)]
+      }
+      return color
+    }
     d3.csv(data).then(res => {
       for (let index = 0; index < res.length; index++) {
         if (res[index].Survey_Date.includes(value)) {
           surDate = surDate.concat(res[index].Survey_Date)
           kineretDate = kineretDate.concat(res[index].Kinneret_Level)
-          dispatch(setKineret(surDate, kineretDate))
+          bgc = bgc.concat('#624e1' + getRandomColor().toString())
+
+          dispatch(setKineret(surDate, kineretDate, bgc))
         }
       }
     })
   }
+}
 
-  //   let updatedArr = []
-  //   updatedArr = defaultLabel.map(el => {
-  //     let ele = el.split('/')
-  //     ele = ele.splice(1).toString()
-  //     return ele
-  //   })
-  //   console.log(updatedArr)
+export const chooseRangeDate = start => {
+  return dispatch => {
+    let f = []
+    let l = []
+    d3.csv(data).then(res => {
+      for (let index = 0; index < res.length; index++) {
+        if (res[index].Survey_Date === start) {
+          return false
+        } else {
+          l = l.concat(res[index].Kinneret_Level)
+          f = f.concat(res[index].Survey_Date)
+          //   console.log(f)
+          //   dispatch(setBetweenDates(f, l))
+        }
+      }
+    })
+  }
 }

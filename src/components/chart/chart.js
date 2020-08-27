@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
 import { Bar, Line, Pie } from 'react-chartjs-2'
-import Datas from './dataChart'
-import './chart.css'
 import { connect } from 'react-redux'
+import { DateRangePicker } from '@progress/kendo-react-dateinputs'
+
+import Datas from './dataChart'
+import '@progress/kendo-theme-default/dist/all.css'
+import './chart.css'
 import * as funcType from '../../store/index'
 class Chart extends Component {
   state = {
     setChart: Line,
-    value: ''
+    value: {
+      start: [],
+      end: null
+    }
   }
-  newBar = []
   componentWillMount () {
     this.props.onInitDataKineret()
   }
@@ -34,11 +39,36 @@ class Chart extends Component {
   }
   showFullYear = e => {
     if (e.target.value.length > 3) {
-      this.setState({ value: e.target.value })
       this.props.onShowFullYear(e.target.value)
     }
+    if (e.target.value.length < 1) {
+      this.props.onInitDataKineret()
+    }
+  }
+
+  handleChange = e => {
+    let start = []
+    let strValue = e.target.value.start.toLocaleDateString('he-IL', {
+      day: '2-digit',
+      year: 'numeric',
+      month: 'numeric'
+    })
+    start = start
+      .concat(strValue)
+      .toString()
+      .replace('.', '/')
+      .replace('.', '/')
+    this.setState(state => {
+      return {
+        ...state,
+        ...state.value,
+        value: { start: start }
+      }
+    })
+    return this.props.onshowBetweenDates(start)
   }
   render () {
+    console.log(this.props)
     let labelChart =
       this.state.setChart === Pie
         ? this.props.labelPie
@@ -66,8 +96,10 @@ class Chart extends Component {
             <div>
               <input type='text' onChange={e => this.showFullYear(e)} />
             </div>
+            <DateRangePicker format='dd.M.yyyy' onChange={this.handleChange} />
           </div>
         </div>
+
         <Datas
           shows={display}
           checkbackgrounds={checkBackground}
@@ -94,9 +126,10 @@ const mapDispatchToProps = dispatch => {
   return {
     onInitDataKineret: () => dispatch(funcType.initKineret()),
     onChoosePie: (level, label) => dispatch(funcType.pieSelector(level, label)),
-    onShowFullYear: e => dispatch(funcType.showFullYear(e))
+    onShowFullYear: e => dispatch(funcType.showFullYear(e)),
+    onshowBetweenDates: (start, end) =>
+      dispatch(funcType.chooseRangeDate(start, end))
     // onShowByYear: () => dispatch({}),
-    // onshowBetweenDates: () => dispatch({}),
     // onShowByDays: () => dispatch({})
   }
 }

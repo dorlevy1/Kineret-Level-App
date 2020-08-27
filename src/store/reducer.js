@@ -26,12 +26,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         labelPie: action.labelPie,
         levelPie: action.levelPie
-        // backgroundColor: action.backgroundColor
       }
-    // case actionType.CHOOSE_YEAR:
-    //   return {
-    //     ...state
-    //   }
+    case actionType.CHOOSE_BETWEEN_DAY_TO_DAY:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          label: action.label,
+          level: action.level
+        }
+      }
     default:
       return state
   }

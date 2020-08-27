@@ -137,7 +137,7 @@ export const chooseRangeDate = (start, end) => {
             l = l.concat(res[index].Kinneret_Level)
             f = f.concat(res[index].Survey_Date)
             console.log(f)
-            dispatch(setKineret(f, l))
+            dispatch(setKineret(f, l, '#000050'))
           }
         }
       }

@@ -80,9 +80,9 @@ class Chart extends Component {
             <div className='changing' onClick={this.changeToBar}>
               Change To Bar
             </div>
-            <div className='changing' onClick={this.changeToPai}>
+            {/* <div className='changing' onClick={this.changeToPai}>
               Change To Pie
-            </div>
+            </div> */}
             <div className='changing' onClick={this.changeToLine}>
               Change To Line
             </div>

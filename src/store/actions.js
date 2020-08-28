@@ -119,8 +119,10 @@ export const chooseRangeDate = (start, end) => {
   return dispatch => {
     let f = []
     let l = []
+    let startFromIndex = ''
+    let EndIndex = ''
     d3.csv(data).then(res => {
-      for (let index = 0; index < res.length; index++) {
+      res.filter((el, index) => {
         if (end[0].end !== null) {
           let newEnd = end[0].end
             .toLocaleDateString('he-IL', {
@@ -130,16 +132,18 @@ export const chooseRangeDate = (start, end) => {
             })
             .replace('.', '/')
             .replace('.', '/')
-          if (
-            res[index].Survey_Date === start ||
-            res[index].Survey_Date === newEnd
-          ) {
-            l = l.concat(res[index].Kinneret_Level)
-            f = f.concat(res[index].Survey_Date)
-            console.log(f)
-            dispatch(setKineret(f, l, '#000050'))
+          if (el.Survey_Date === start) {
+            return (startFromIndex = +index)
+          }
+          if (el.Survey_Date === newEnd) {
+            return (EndIndex = +index)
           }
         }
+      })
+      for (let index = EndIndex; index < startFromIndex; index++) {
+        l = l.concat(res[index].Kinneret_Level)
+        f = f.concat(res[index].Survey_Date)
+        dispatch(setKineret(f, l, '#000050'))
       }
     })
   }

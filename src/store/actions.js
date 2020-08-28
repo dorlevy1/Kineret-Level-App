@@ -2,19 +2,22 @@ import * as actionType from './actionType'
 import * as d3 from 'd3'
 import data from '../containers/Site/data.csv'
 
-export const setKineret = (label, level, bgc) => {
+export const setKineret = (label, level, bgc, title) => {
   return {
     type: actionType.SET_KINERET,
     label: label,
     level: level,
-    backgroundColor: bgc
+    backgroundColor: bgc,
+    title: title
   }
 }
-export const setBetweenDates = (label, level) => {
+export const setBetweenDates = (label, level, bgc, title) => {
   return {
     type: actionType.CHOOSE_BETWEEN_DAY_TO_DAY,
     label: label,
-    level: level
+    level: level,
+    backgroundColor: bgc,
+    title: title
   }
 }
 //Pie  !!--OPTION--!!
@@ -61,7 +64,14 @@ export const initKineret = () => {
           label = label.concat(el.Survey_Date.toString().replace('01/', ''))
           bgc = bgc.concat('#624e1' + getRandomColor().toString())
           level = level.concat(el.Kinneret_Level)
-          dispatch(setKineret(label, level, bgc))
+          dispatch(
+            setKineret(
+              label,
+              level,
+              bgc,
+              res[0].Survey_Date.split('/').slice(2) + '-' + check + ' תרשים'
+            )
+          )
         }
       }
       return true
@@ -115,7 +125,17 @@ export const showFullYear = value => {
           kineretDate = kineretDate.concat(res[index].Kinneret_Level)
           bgc = bgc.concat('#624e1' + getRandomColor().toString())
 
-          dispatch(setKineret(surDate, kineretDate, bgc))
+          dispatch(
+            setKineret(
+              surDate,
+              kineretDate,
+              bgc,
+              surDate[0]
+                .split('/')
+                .splice(2)
+                .toString() + ' תרשים'
+            )
+          )
         }
       }
     })
@@ -128,10 +148,11 @@ export const chooseRangeDate = (start, end) => {
     let l = []
     let startFromIndex = ''
     let EndIndex = ''
+    let newEnd = null
     d3.csv(data).then(res => {
       res.filter((el, index) => {
         if (end[0].end !== null) {
-          let newEnd = end[0].end
+          newEnd = end[0].end
             .toLocaleDateString('he-IL', {
               day: '2-digit',
               year: 'numeric',
@@ -150,7 +171,9 @@ export const chooseRangeDate = (start, end) => {
       for (let index = EndIndex; index < startFromIndex; index++) {
         l = l.concat(res[index].Kinneret_Level)
         f = f.concat(res[index].Survey_Date)
-        dispatch(setKineret(f, l, '#000050'))
+        dispatch(
+          setBetweenDates(f, l, '#000050', newEnd + '-' + start + ' תרשים')
+        )
       }
     })
   }

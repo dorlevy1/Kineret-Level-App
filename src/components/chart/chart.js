@@ -61,7 +61,8 @@ class Chart extends PureComponent {
       })
       .replace('.', '/')
       .replace('.', '/')
-    this.props.onshowBetweenDates(start, end)
+
+    return this.props.onshowBetweenDates(start, end)
   }
 
   render () {
@@ -117,6 +118,7 @@ class Chart extends PureComponent {
             labelchart={this.props.defaultLabel}
             levels={this.props.defaultLevel}
             selectchart={this.state.setChart}
+            textTitle={this.props.title}
           />
         </div>
         <div style={{ textAlign: 'center' }}>
@@ -145,7 +147,8 @@ const mapStateToProps = state => {
     //END Pie  !!--OPTION--!!
 
     defaultLevel: state.data.level,
-    bgc: state.backgroundColor
+    bgc: state.backgroundColor,
+    title: state.textTitle
   }
 }
 

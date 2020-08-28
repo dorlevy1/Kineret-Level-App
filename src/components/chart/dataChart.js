@@ -74,6 +74,10 @@ const datas = props => {
   ]
 
   let options = {
+    title: {
+      display: true,
+      text: props.textTitle
+    },
     maintainAspectRatio: false,
     scales: {
       xAxes: [

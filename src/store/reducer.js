@@ -5,8 +5,9 @@ const initialState = {
     level: []
   },
   backgroundColor: [],
-  labelPie: [],
-  levelPie: []
+  textTitle: ''
+  // labelPie: [],
+  // levelPie: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -19,14 +20,15 @@ const reducer = (state = initialState, action) => {
           label: action.label,
           level: action.level
         },
-        backgroundColor: action.backgroundColor
+        backgroundColor: action.backgroundColor,
+        textTitle: action.title
       }
-    case actionType.SET_PIE:
-      return {
-        ...state,
-        labelPie: action.labelPie,
-        levelPie: action.levelPie
-      }
+    // case actionType.SET_PIE:
+    //   return {
+    //     ...state,
+    //     labelPie: action.labelPie,
+    //     levelPie: action.levelPie
+    //   }
     case actionType.CHOOSE_BETWEEN_DAY_TO_DAY:
       return {
         ...state,
@@ -34,7 +36,9 @@ const reducer = (state = initialState, action) => {
           ...state.data,
           label: action.label,
           level: action.level
-        }
+        },
+        backgroundColor: action.backgroundColor,
+        textTitle: action.title
       }
     default:
       return state

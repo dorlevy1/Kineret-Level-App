@@ -1,6 +1,6 @@
 export {
   initKineret,
-  pieSelector,
+  // pieSelector,
   showFullYear,
   chooseRangeDate
 } from './actions'

@@ -17,14 +17,16 @@ export const setBetweenDates = (label, level) => {
     level: level
   }
 }
+//Pie  !!--OPTION--!!
 
-export const setPie = (pieLabel, pieLevel) => {
-  return {
-    type: actionType.SET_PIE,
-    labelPie: pieLabel,
-    levelPie: pieLevel
-  }
-}
+// export const setPie = (pieLabel, pieLevel) => {
+//   return {
+//     type: actionType.SET_PIE,
+//     labelPie: pieLabel,
+//     levelPie: pieLevel
+//   }
+// }
+//END Pie  !!--OPTION--!!
 
 export const initKineret = () => {
   return dispatch => {
@@ -66,27 +68,32 @@ export const initKineret = () => {
     }, [])
   }
 }
-export const pieSelector = (defaultLevel, defaultLabel) => {
-  let updatedArr = []
-  let levelArr = []
-  levelArr = defaultLabel.map(lvl => {
-    let level = lvl.split('.')
-    level = level.splice(0, 1).toString()
-    return level
-  })
-  updatedArr = defaultLevel.map(el => {
-    let ele = el.split('/')
-    ele = ele.splice(1).toString()
-    return ele
-  })
-  levelArr = levelArr.filter(function (item, index, inputArray) {
-    return inputArray.indexOf(item) === index
-  })
-  updatedArr = updatedArr.filter(function (item, index, inputArray) {
-    return inputArray.indexOf(item) === index
-  })
-  return setPie(updatedArr, levelArr)
-}
+
+//Pie  !!--OPTION--!!
+
+// export const pieSelector = (defaultLevel, defaultLabel) => {
+//   let updatedArr = []
+//   let levelArr = []
+//   levelArr = defaultLabel.map(lvl => {
+//     let level = lvl.split('.')
+//     level = level.splice(0, 1).toString()
+//     return level
+//   })
+//   updatedArr = defaultLevel.map(el => {
+//     let ele = el.split('/')
+//     ele = ele.splice(1).toString()
+//     return ele
+//   })
+//   levelArr = levelArr.filter(function (item, index, inputArray) {
+//     return inputArray.indexOf(item) === index
+//   })
+//   updatedArr = updatedArr.filter(function (item, index, inputArray) {
+//     return inputArray.indexOf(item) === index
+//   })
+//   return setPie(updatedArr, levelArr)
+// }
+
+// END Pie  !!--OPTION--!!
 
 export const showFullYear = value => {
   return dispatch => {

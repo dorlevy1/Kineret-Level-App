@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Bar, Line, Pie } from 'react-chartjs-2'
+import { Bar, Line } from 'react-chartjs-2'
 import { connect } from 'react-redux'
 import { DateRangePicker } from '@progress/kendo-react-dateinputs'
 
@@ -18,22 +18,25 @@ class Chart extends PureComponent {
   componentWillMount () {
     this.props.onInitDataKineret()
   }
+  //Pie  !!--OPTION--!!
 
-  changeToPai = () => {
-    if (this.state.setChart === Line || this.state.setChart === Bar) {
-      this.props.onChoosePie(this.props.defaultLabel, this.props.defaultLevel)
-      this.setState({
-        setChart: Pie
-      })
-    }
-  }
+  // changeToPai = () => {
+  //   if (this.state.setChart === Line || this.state.setChart === Bar) {
+  //     this.props.onChoosePie(this.props.defaultLabel, this.props.defaultLevel)
+  //     this.setState({
+  //       setChart: Pie
+  //     })
+  //   }
+  // }
+
+  //END Pie  !!--OPTION--!!
   changeToLine = () => {
-    if (this.state.setChart === Bar || this.state.setChart === Pie) {
+    if (this.state.setChart === Bar /*|| this.state.setChart === Pie*/) {
       this.setState({ setChart: Line })
     }
   }
   changeToBar = () => {
-    if (this.state.setChart === Line || this.state.setChart === Pie) {
+    if (this.state.setChart === Line /*|| this.state.setChart === Pie*/) {
       this.setState({ setChart: Bar })
     }
   }
@@ -62,17 +65,22 @@ class Chart extends PureComponent {
   }
 
   render () {
-    let labelChart =
-      this.state.setChart === Pie
-        ? this.props.labelPie
-        : this.props.defaultLabel
-    let levelChart =
-      this.state.setChart === Pie
-        ? this.props.levelPie
-        : this.props.defaultLevel
+    //Pie  !!--OPTION--!!
+
+    // let labelChart =
+    //   this.state.setChart === Pie
+    //     ? this.props.labelPie
+    //     : this.props.defaultLabel
+    // let levelChart =
+    //   this.state.setChart === Pie
+    //     ? this.props.levelPie
+    //     : this.props.defaultLevel
+    // let display = this.state.setChart === Pie ? false : true
+
+    //END Pie  !!--OPTION--!!
+
     let checkBackground =
       this.state.setChart === Line ? '#824e1e3b' : this.props.bgc
-    let display = this.state.setChart === Pie ? false : true
     return (
       <React.StrictMode>
         <div className='flex-row'>
@@ -104,10 +112,10 @@ class Chart extends PureComponent {
           </div>
 
           <Datas
-            shows={display}
+            shows={true}
             checkbackgrounds={checkBackground}
-            labelchart={labelChart}
-            levels={levelChart}
+            labelchart={this.props.defaultLabel}
+            levels={this.props.defaultLevel}
             selectchart={this.state.setChart}
           />
         </div>
@@ -129,9 +137,14 @@ class Chart extends PureComponent {
 const mapStateToProps = state => {
   return {
     defaultLabel: state.data.label,
-    labelPie: state.labelPie,
+    //Pie  !!--OPTION--!!
+
+    // labelPie: state.labelPie,
+    // levelPie: state.levelPie,
+
+    //END Pie  !!--OPTION--!!
+
     defaultLevel: state.data.level,
-    levelPie: state.levelPie,
     bgc: state.backgroundColor
   }
 }
@@ -139,7 +152,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onInitDataKineret: () => dispatch(funcType.initKineret()),
-    onChoosePie: (level, label) => dispatch(funcType.pieSelector(level, label)),
+    // onChoosePie: (level, label) => dispatch(funcType.pieSelector(level, label)),
     onShowFullYear: e => dispatch(funcType.showFullYear(e)),
     onshowBetweenDates: (start, end) =>
       dispatch(funcType.chooseRangeDate(start, end))

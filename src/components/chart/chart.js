@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Bar, Line, Pie } from 'react-chartjs-2'
 import { connect } from 'react-redux'
 import { DateRangePicker } from '@progress/kendo-react-dateinputs'
@@ -7,7 +7,7 @@ import Datas from './dataChart'
 import '@progress/kendo-theme-default/dist/all.css'
 import './chart.css'
 import * as funcType from '../../store/index'
-class Chart extends Component {
+class Chart extends PureComponent {
   state = {
     setChart: Line,
     value: {
@@ -87,7 +87,11 @@ class Chart extends Component {
               Change To Line
             </div>
             <div>
-              <input type='text' onChange={e => this.showFullYear(e)} />
+              <input
+                type='text'
+                placeholder='Full Year information(2015, example)'
+                onChange={e => this.showFullYear(e)}
+              />
             </div>
             <DateRangePicker
               value={this.state.value}

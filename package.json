@@ -1,5 +1,6 @@
 {
     "name": "resume-app",
+    "homepage": "http://kineret.dor-projects.com",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

@@ -74,6 +74,7 @@ const datas = props => {
   ]
 
   let options = {
+    maintainAspectRatio: false,
     scales: {
       xAxes: [
         {

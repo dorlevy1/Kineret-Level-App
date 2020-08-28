@@ -74,41 +74,54 @@ class Chart extends PureComponent {
       this.state.setChart === Line ? '#824e1e3b' : this.props.bgc
     let display = this.state.setChart === Pie ? false : true
     return (
-      <div className='flex-row'>
-        <div className='align'>
-          <div className='wrapper-changing'>
-            <div className='changing' onClick={this.changeToBar}>
-              Change To Bar
-            </div>
-            {/* <div className='changing' onClick={this.changeToPai}>
+      <React.StrictMode>
+        <div className='flex-row'>
+          <div className='align'>
+            <div className='wrapper-changing'>
+              <div className='changing' onClick={this.changeToBar}>
+                Change To Bar
+              </div>
+              {/* <div className='changing' onClick={this.changeToPai}>
               Change To Pie
             </div> */}
-            <div className='changing' onClick={this.changeToLine}>
-              Change To Line
-            </div>
-            <div>
-              <input
-                type='text'
-                placeholder='Full Year information(2015, example)'
-                onChange={e => this.showFullYear(e)}
+              <div className='changing' onClick={this.changeToLine}>
+                Change To Line
+              </div>
+
+              <div>
+                <input
+                  type='text'
+                  placeholder='Full Year information(2015, example)'
+                  onChange={e => this.showFullYear(e)}
+                />
+              </div>
+              <DateRangePicker
+                value={this.state.value}
+                format='dd.M.yyyy'
+                onChange={this.handleChange}
               />
             </div>
-            <DateRangePicker
-              value={this.state.value}
-              format='dd.M.yyyy'
-              onChange={this.handleChange}
-            />
           </div>
-        </div>
 
-        <Datas
-          shows={display}
-          checkbackgrounds={checkBackground}
-          labelchart={labelChart}
-          levels={levelChart}
-          selectchart={this.state.setChart}
-        />
-      </div>
+          <Datas
+            shows={display}
+            checkbackgrounds={checkBackground}
+            labelchart={labelChart}
+            levels={levelChart}
+            selectchart={this.state.setChart}
+          />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <h2>Created By Dor Dylan Levy </h2>
+          <h3>
+            <a href='http://dordl.com'>DORDL.COM</a>
+            <div style={{ fontSize: '16px' }}>
+              <p>Created with React / Redux</p>
+              <p>Rsuite / Chart-Js2</p>
+            </div>
+          </h3>
+        </div>
+      </React.StrictMode>
     )
   }
 }

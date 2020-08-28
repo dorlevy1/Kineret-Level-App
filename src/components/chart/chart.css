@@ -29,7 +29,7 @@
     transition: all .4s;
     width: 135px;
     cursor: pointer;
-    /* box-shadow: 0px 0px 8px rgba(65, 65, 65, 0.386); */
+    margin: auto;
     border-bottom: 1px solid #0000003b;
 }
 
@@ -67,4 +67,15 @@
         height: 100% !important;
         overflow: scroll;
     }
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #0000002e;
+    border-radius: 3px;
+    margin-top: 10px;
+}
+
+.k-daterangepicker-wrap {
+    text-align: center;
 }

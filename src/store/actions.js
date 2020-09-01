@@ -54,6 +54,7 @@ export const initKineret = () => {
               res.data.result.total
           )
           .then(res => {
+            total = new Array()
             total = total.concat(res.data.result.records)
             res = res.data.result.records
             let label = []
@@ -189,6 +190,7 @@ export const chooseRangeDate = (start, end) => {
           return (EndIndex = +index)
         }
       }
+      return [startFromIndex, EndIndex]
     })
     for (let index = EndIndex; index < startFromIndex; index++) {
       l = l.concat(total[index].Kinneret_Level)

@@ -45,9 +45,9 @@ class Chart extends PureComponent {
     if (e.target.value.length > 3) {
       this.props.onShowFullYear(e.target.value)
     }
-    // if (e.target.value.length < 1) {
-    //   this.props.onInitDataKineret()
-    // }
+    if (e.target.value.length < 1) {
+      return this.props.onInitDataKineret()
+    }
   }
 
   handleChange = e => {

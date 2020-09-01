@@ -76,7 +76,8 @@ const datas = props => {
   let options = {
     title: {
       display: true,
-      text: props.textTitle
+      text: props.textTitle,
+      fontSize: 25
     },
     maintainAspectRatio: false,
     scales: {
@@ -85,6 +86,9 @@ const datas = props => {
           display: props.shows,
           gridLines: {
             display: true
+          },
+          ticks: {
+            fontSize: 16
           }
         }
       ],
@@ -96,6 +100,9 @@ const datas = props => {
           },
           gridLines: {
             display: true
+          },
+          ticks: {
+            fontSize: 20
           }
         }
       ]

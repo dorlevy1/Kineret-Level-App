@@ -127,8 +127,13 @@ class Chart extends PureComponent {
           <h3>
             <a href='http://dordl.com'>DORDL.COM</a>
             <div style={{ fontSize: '16px' }}>
-              <p>Created with React / Redux</p>
+              <br />
+              <p>Created with React / Redux / Axios</p>
               <p>Rsuite / Chart-Js2</p>
+              <p>
+                <br />
+                API from <a href='https://data.gov.il'>Israel Gov.il</a>
+              </p>
             </div>
           </h3>
         </div>

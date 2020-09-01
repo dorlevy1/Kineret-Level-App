@@ -79,7 +79,10 @@ export const initKineret = () => {
                 el.Survey_Date === check + '/12/01'
               ) {
                 label = label.concat(
-                  el.Survey_Date.toString().replace('01/', '')
+                  el.Survey_Date.split('/')
+                    .reverse()
+                    .join('/')
+                    .replace('01/', '')
                 )
 
                 bgc = bgc.concat('#624e1' + getRandomColor().toString())
@@ -144,7 +147,11 @@ export const showFullYear = value => {
     }
     for (let index = 0; index < total.length; index++) {
       if (total[index].Survey_Date.includes(value)) {
-        surDate = surDate.concat(total[index].Survey_Date)
+        surDate = surDate.concat(
+          total[index].Survey_Date.split('/')
+            .reverse()
+            .join('/')
+        )
         kineretDate = kineretDate.concat(total[index].Kinneret_Level)
         bgc = bgc.concat('#624e1' + getRandomColor().toString())
 
@@ -155,7 +162,7 @@ export const showFullYear = value => {
             bgc,
             surDate[0]
               .split('/')
-              .splice(0, 1)
+              .splice(2)
               .toString() + ' תרשים'
           )
         )
@@ -177,16 +184,27 @@ export const chooseRangeDate = (start, end) => {
         newEnd = end[0].end
           .toLocaleDateString('en-GB')
           .split('/')
-          .reverse()
           .join('/')
-        newStart = start.split('/').reverse()
+        newStart = start.split('/')
         newStart[1] = '0' + newStart[1]
         newStart = newStart.join('/')
 
-        if (el.Survey_Date === newStart) {
+        if (
+          el.Survey_Date ===
+          newStart
+            .split('/')
+            .reverse()
+            .join('/')
+        ) {
           return (startFromIndex = +index)
         }
-        if (el.Survey_Date === newEnd) {
+        if (
+          el.Survey_Date ===
+          newEnd
+            .split('/')
+            .reverse()
+            .join('/')
+        ) {
           return (EndIndex = +index)
         }
       }
@@ -194,7 +212,11 @@ export const chooseRangeDate = (start, end) => {
     })
     for (let index = EndIndex; index < startFromIndex; index++) {
       l = l.concat(total[index].Kinneret_Level)
-      f = f.concat(total[index].Survey_Date)
+      f = f.concat(
+        total[index].Survey_Date.split('/')
+          .reverse()
+          .join('/')
+      )
       dispatch(
         setBetweenDates(f, l, '#000050', newEnd + '-' + newStart + ' תרשים')
       )

@@ -1,7 +1,6 @@
 import * as actionType from './actionType'
-import * as d3 from 'd3'
-import data from '../containers/Site/data.csv'
-
+import axios from 'axios'
+let total = []
 export const setKineret = (label, level, bgc, title) => {
   return {
     type: actionType.SET_KINERET,
@@ -20,6 +19,15 @@ export const setBetweenDates = (label, level, bgc, title) => {
     title: title
   }
 }
+
+const getRandomColor = () => {
+  let letters = '0123456789ABCDEF'
+  let color = ''
+  for (var i = 0; i < 1; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
 //Pie  !!--OPTION--!!
 
 // export const setPie = (pieLabel, pieLevel) => {
@@ -33,49 +41,64 @@ export const setBetweenDates = (label, level, bgc, title) => {
 
 export const initKineret = () => {
   return dispatch => {
-    const row = d => {
-      let stringLevel = d.Kinneret_Level.toString()
-      d.Kinneret_Level = stringLevel
-      return d
-    }
-
-    d3.csv(data, row).then(res => {
-      const getRandomColor = () => {
-        let letters = '0123456789ABCDEF'
-        let color = ''
-        for (var i = 0; i < 1; i++) {
-          color += letters[Math.floor(Math.random() * 16)]
-        }
-        return color
-      }
-      let label = []
-      let level = []
-      let bgc = []
-      for (let index = 0; index < res.length; index++) {
-        const el = res[index]
-        let check = res[index].Survey_Date.split('/')
-        check = check.slice(2).toString()
-        if (
-          el.Survey_Date === '01/1/' + check ||
-          el.Survey_Date === '01/4/' + check ||
-          el.Survey_Date === '01/7/' + check ||
-          el.Survey_Date === '01/12/' + check
-        ) {
-          label = label.concat(el.Survey_Date.toString().replace('01/', ''))
-          bgc = bgc.concat('#624e1' + getRandomColor().toString())
-          level = level.concat(el.Kinneret_Level)
-          dispatch(
-            setKineret(
-              label,
-              level,
-              bgc,
-              res[0].Survey_Date.split('/').slice(2) + '-' + check + ' תרשים'
-            )
+    axios
+      .get(
+        'https://data.gov.il/api/3/action/datastore_search?include_total=true&resource_id=2de7b543-e13d-4e7e-b4c8-56071bc4d3c8'
+      )
+      .then(res => {
+        axios
+          .get(
+            'https://data.gov.il' +
+              res.data.result._links.start +
+              '&limit=' +
+              res.data.result.total
           )
-        }
-      }
-      return true
-    }, [])
+          .then(res => {
+            total = total.concat(res.data.result.records)
+            res = res.data.result.records
+            let label = []
+            let level = []
+            let bgc = []
+            for (let index = 0; index < res.length; index++) {
+              const el = res[index]
+
+              let check = res[index].Survey_Date.split('-')
+              check = check.slice(0, 1).toString()
+
+              el.Survey_Date = el.Survey_Date.replace('-', '/')
+                .replace('-', '/')
+                .split('T')
+                .splice(0, 1)
+
+              el.Survey_Date = el.Survey_Date.toString()
+              if (
+                el.Survey_Date === check + '/01/01' ||
+                el.Survey_Date === check + '/04/01' ||
+                el.Survey_Date === check + '/07/01' ||
+                el.Survey_Date === check + '/12/01'
+              ) {
+                label = label.concat(
+                  el.Survey_Date.toString().replace('01/', '')
+                )
+
+                bgc = bgc.concat('#624e1' + getRandomColor().toString())
+                level = level.concat(el.Kinneret_Level)
+                dispatch(
+                  setKineret(
+                    label,
+                    level,
+                    bgc,
+                    res[0].Survey_Date.split('/').slice(0, 1) +
+                      '-' +
+                      check +
+                      ' תרשים'
+                  )
+                )
+              }
+            }
+            return true
+          })
+      })
   }
 }
 
@@ -118,27 +141,25 @@ export const showFullYear = value => {
       }
       return color
     }
-    d3.csv(data).then(res => {
-      for (let index = 0; index < res.length; index++) {
-        if (res[index].Survey_Date.includes(value)) {
-          surDate = surDate.concat(res[index].Survey_Date)
-          kineretDate = kineretDate.concat(res[index].Kinneret_Level)
-          bgc = bgc.concat('#624e1' + getRandomColor().toString())
+    for (let index = 0; index < total.length; index++) {
+      if (total[index].Survey_Date.includes(value)) {
+        surDate = surDate.concat(total[index].Survey_Date)
+        kineretDate = kineretDate.concat(total[index].Kinneret_Level)
+        bgc = bgc.concat('#624e1' + getRandomColor().toString())
 
-          dispatch(
-            setKineret(
-              surDate,
-              kineretDate,
-              bgc,
-              surDate[0]
-                .split('/')
-                .splice(2)
-                .toString() + ' תרשים'
-            )
+        dispatch(
+          setKineret(
+            surDate,
+            kineretDate,
+            bgc,
+            surDate[0]
+              .split('/')
+              .splice(0, 1)
+              .toString() + ' תרשים'
           )
-        }
+        )
       }
-    })
+    }
   }
 }
 
@@ -149,32 +170,32 @@ export const chooseRangeDate = (start, end) => {
     let startFromIndex = ''
     let EndIndex = ''
     let newEnd = null
-    d3.csv(data).then(res => {
-      res.filter((el, index) => {
-        if (end[0].end !== null) {
-          newEnd = end[0].end
-            .toLocaleDateString('he-IL', {
-              day: '2-digit',
-              year: 'numeric',
-              month: 'numeric'
-            })
-            .replace('.', '/')
-            .replace('.', '/')
-          if (el.Survey_Date === start) {
-            return (startFromIndex = +index)
-          }
-          if (el.Survey_Date === newEnd) {
-            return (EndIndex = +index)
-          }
+    let newStart = null
+    total.filter((el, index) => {
+      if (end[0].end !== null) {
+        newEnd = end[0].end
+          .toLocaleDateString('en-GB')
+          .split('/')
+          .reverse()
+          .join('/')
+        newStart = start.split('/').reverse()
+        newStart[1] = '0' + newStart[1]
+        newStart = newStart.join('/')
+
+        if (el.Survey_Date === newStart) {
+          return (startFromIndex = +index)
         }
-      })
-      for (let index = EndIndex; index < startFromIndex; index++) {
-        l = l.concat(res[index].Kinneret_Level)
-        f = f.concat(res[index].Survey_Date)
-        dispatch(
-          setBetweenDates(f, l, '#000050', newEnd + '-' + start + ' תרשים')
-        )
+        if (el.Survey_Date === newEnd) {
+          return (EndIndex = +index)
+        }
       }
     })
+    for (let index = EndIndex; index < startFromIndex; index++) {
+      l = l.concat(total[index].Kinneret_Level)
+      f = f.concat(total[index].Survey_Date)
+      dispatch(
+        setBetweenDates(f, l, '#000050', newEnd + '-' + newStart + ' תרשים')
+      )
+    }
   }
 }

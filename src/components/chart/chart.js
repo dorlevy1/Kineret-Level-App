@@ -15,6 +15,7 @@ class Chart extends PureComponent {
       end: new Date()
     }
   }
+
   componentWillMount () {
     this.props.onInitDataKineret()
   }
@@ -44,9 +45,9 @@ class Chart extends PureComponent {
     if (e.target.value.length > 3) {
       this.props.onShowFullYear(e.target.value)
     }
-    if (e.target.value.length < 1) {
-      this.props.onInitDataKineret()
-    }
+    // if (e.target.value.length < 1) {
+    //   this.props.onInitDataKineret()
+    // }
   }
 
   handleChange = e => {
@@ -139,7 +140,7 @@ class Chart extends PureComponent {
 const mapStateToProps = state => {
   return {
     defaultLabel: state.data.label,
-    //Pie  !!--OPTION--!!
+    total: state.data.total, //Pie  !!--OPTION--!!
 
     // labelPie: state.labelPie,
     // levelPie: state.levelPie,

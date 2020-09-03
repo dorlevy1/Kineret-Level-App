@@ -13,11 +13,17 @@ class Chart extends PureComponent {
     value: {
       start: new Date(),
       end: new Date()
-    }
+    },
+    loading: false
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.onInitDataKineret()
+    if (this.props.defaultLevel && this.props.defaultLabel) {
+      this.setState({ loading: false })
+    } else {
+      this.setState({ loading: true })
+    }
   }
   //Pie  !!--OPTION--!!
 
@@ -80,9 +86,26 @@ class Chart extends PureComponent {
     // let display = this.state.setChart === Pie ? false : true
 
     //END Pie  !!--OPTION--!!
-
     let checkBackground =
       this.state.setChart === Line ? '#824e1e3b' : this.props.bgc
+    let loading = (
+      <h1 style={{ direction: 'rtl', margin: '25px auto' }}>
+        'מוריד נתונים חדשים ...'
+      </h1>
+    )
+    if (this.props.title) {
+      loading = (
+        <Datas
+          shows={true}
+          checkbackgrounds={checkBackground}
+          labelchart={this.props.defaultLabel}
+          levels={this.props.defaultLevel}
+          selectchart={this.state.setChart}
+          textTitle={this.props.title}
+        />
+      )
+    }
+
     return (
       <React.StrictMode>
         <div className='flex-row'>
@@ -113,14 +136,7 @@ class Chart extends PureComponent {
             </div>
           </div>
 
-          <Datas
-            shows={true}
-            checkbackgrounds={checkBackground}
-            labelchart={this.props.defaultLabel}
-            levels={this.props.defaultLevel}
-            selectchart={this.state.setChart}
-            textTitle={this.props.title}
-          />
+          {loading}
         </div>
         <div style={{ textAlign: 'center' }}>
           <h2>Created By Dor Dylan Levy </h2>
@@ -145,7 +161,7 @@ class Chart extends PureComponent {
 const mapStateToProps = state => {
   return {
     defaultLabel: state.data.label,
-    total: state.data.total, //Pie  !!--OPTION--!!
+    //Pie  !!--OPTION--!!
 
     // labelPie: state.labelPie,
     // levelPie: state.levelPie,

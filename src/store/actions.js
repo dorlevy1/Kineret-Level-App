@@ -54,7 +54,7 @@ export const initKineret = () => {
               res.data.result.total
           )
           .then(res => {
-            total = new Array()
+            total = []
             total = total.concat(res.data.result.records)
             res = res.data.result.records
             let label = []
@@ -87,6 +87,7 @@ export const initKineret = () => {
 
                 bgc = bgc.concat('#624e1' + getRandomColor().toString())
                 level = level.concat(el.Kinneret_Level)
+
                 dispatch(
                   setKineret(
                     label,
@@ -137,14 +138,6 @@ export const showFullYear = value => {
     let surDate = []
     let bgc = []
     let kineretDate = []
-    const getRandomColor = () => {
-      let letters = '0123456789ABCDEF'
-      let color = ''
-      for (var i = 0; i < 1; i++) {
-        color += letters[Math.floor(Math.random() * 16)]
-      }
-      return color
-    }
     for (let index = 0; index < total.length; index++) {
       if (total[index].Survey_Date.includes(value)) {
         surDate = surDate.concat(

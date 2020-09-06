@@ -1,0 +1,16 @@
+.Information {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+.box-meter {
+    padding: 10px;
+    border: 1px solid #58D97C;
+    width: 35%;
+    font-weight: 500;
+    color: white;
+    background: #58D97C;
+    font-size: 20px;
+    margin: auto;
+}

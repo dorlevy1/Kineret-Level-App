@@ -1,0 +1,9 @@
+.Button {
+    width: 55%;
+    /* margin: 0 auto; */
+    background: #065D8D;
+    padding: 13px;
+    margin: 15px auto;
+    color: white;
+    border: 1px solid #065D8D;
+}

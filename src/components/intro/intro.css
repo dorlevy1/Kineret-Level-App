@@ -1,0 +1,35 @@
+.Intro {
+    z-index: 3;
+    /* background: rgba(0, 0, 0, 0.281); */
+    background-image: url('../../assets/bgc_start.png');
+    position: absolute;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 80px;
+    height: 100%;
+    transition: all .5s;
+    overflow: hidden
+}
+
+.Closes {
+    height: 0% !important;
+    padding-top: 0% !important;
+    transition: all .5s;
+}
+
+.Logos {
+    background-image: url('../../assets/logos.png');
+    width: 70%;
+    height: 25%;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.Buttons {
+    text-align: center;
+}

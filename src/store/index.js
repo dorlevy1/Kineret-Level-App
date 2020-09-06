@@ -3,4 +3,5 @@ export {
   // pieSelector,
   showFullYear,
   chooseRangeDate
-} from './actions'
+} from './actions/chart'
+export { initCurrentData, differnceBetweenDates } from './actions/regular'

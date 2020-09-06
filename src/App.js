@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import Site from './containers/Site/Site'
-function App () {
+const App = () => {
   return (
     <div>
       <Site />

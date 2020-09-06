@@ -1,4 +1,4 @@
-import * as actionType from './actionType'
+import * as actionType from '../actions/actionType'
 const initialState = {
   data: {
     label: [],

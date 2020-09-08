@@ -17,7 +17,6 @@ class Information extends Component {
   }
   
   componentDidUpdate(prevProps, prevState){
-    console.log(prevProps,prevState);
     if (prevState.yesterday !== this.props.yesterday ||
         prevState.current !== this.props.current     ||
         prevState.amount !== this.props.amount

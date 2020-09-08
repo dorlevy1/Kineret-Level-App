@@ -4,4 +4,8 @@ export {
   showFullYear,
   chooseRangeDate
 } from './actions/chart'
-export { initCurrentData, differnceBetweenDates } from './actions/regular'
+export {
+  initCurrentData,
+  differnceBetweenDates,
+  filterLevels
+} from './actions/regular'

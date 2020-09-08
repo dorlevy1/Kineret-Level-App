@@ -12,5 +12,15 @@
     color: white;
     background: #58D97C;
     font-size: 20px;
-    margin: auto;
+    margin: 15px auto 20px auto;
+}
+
+.description {
+    font-family: 'Assistant', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.title {
+    padding-top: 20px;
 }

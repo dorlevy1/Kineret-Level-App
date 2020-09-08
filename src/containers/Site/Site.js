@@ -10,7 +10,9 @@ class Site extends Component {
     display: 'block'
   }
 
-  show = () => {
+  show = (e) => {
+    e.preventDefault();
+
     this.setState({ shows: false })
   }
   render () {
@@ -26,15 +28,7 @@ class Site extends Component {
         </div>
         <Header>
           {!this.state.shows ? (
-            <Info
-              title={'06/09/2020'}
-              day={'יום ראשון'}
-              valMeter={'200'}
-              defferenceMeterLastDay={'15'}
-              yesterdayDate={'15/10'}
-              lowerMeterUpRed={'200'}
-              greaterFromDownRed={'200'}
-            />
+            <Info/>
           ) : (
             ''
           )}

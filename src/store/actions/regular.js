@@ -1,6 +1,5 @@
 import * as actionType from './actionType'
 import axios from 'axios'
-import { dispatch } from 'd3'
 let total = []
 export const setCurrentData = (fullDate, meters, dayName) => {
   return {
@@ -24,13 +23,14 @@ export const initCurrentData = () => {
   return dispatch => {
     axios
       .get(
-        'https://data.gov.il/api/3/action/datastore_search?include_total=true&resource_id=2de7b543-e13d-4e7e-b4c8-56071bc4d3c8'
+        'https://data.gov.il/api/3/action/datastore_search?include_total=true&resource_id=2de7b543-e13d-4e7e-b4c8-56071bc4d3c8&limit=0'
       )
       .then(res => {
+        let r= res.data.result._links.start.split('limit=0&').join('')
         axios
           .get(
             'https://data.gov.il' +
-              res.data.result._links.start +
+              r +
               '&limit=' +
               res.data.result.total
           )
@@ -54,6 +54,7 @@ export const initCurrentData = () => {
 
 export const differnceBetweenDates = currentDate => {
   return dispatch => {
+    // eslint-disable-next-line
     total.filter((date, index) => {
       if (date.Survey_Date.includes(currentDate)) {
         let newTotal = total.splice(index, index + 2)

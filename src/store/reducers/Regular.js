@@ -1,12 +1,13 @@
 import * as actionType from '../actions/actionType'
 const initialState = {
-  total: [],
   fullDate: '',
   meters: '',
   dayName: '',
+  total: [],
   amount: null,
   yesterday: null,
-  level: null
+  level: null,
+  currentLevel: null
 }
 
 const regular = (state = initialState, action) => {
@@ -15,22 +16,18 @@ const regular = (state = initialState, action) => {
       return {
         ...state,
         fullDate: action.date,
-        meters: action.meter,
-        dayName: action.day
-      }
-    case actionType.SET_DIFFERENCE_AMOUNT:
-      return {
-        ...state,
-        amount: action.amount,
-        yesterday: action.yesterday,
-        currentLevel: action.currentLevel
+        meters: action.meter
       }
 
-    case actionType.SET_LEVELS:
+    case actionType.SET_MORE_DATES:
       return {
         ...state,
-        total: action.total,
-        level: action.level
+        fullDate: action.date,
+        meters: action.meter,
+        amount: action.amount,
+        yesterday: action.yesterday,
+        currentLevel: action.currentLevel,
+        dayName: action.day
       }
     default:
       return state

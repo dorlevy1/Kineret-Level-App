@@ -26,18 +26,54 @@
     }
     
     #upper {
-        top: 300px;
+        top: 43.5%;
+        z-index: 5;
     }
     
     .CurrentLevel {
-        background: #63B4E0;
         width: 100%;
+        background: #63B4E0;
         position: absolute;
         bottom: 0;
     }
     
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 50%;
+        z-index: 1;
+        top: 50%;
+        /* border-radius: 5px; */
+        transform: translate(-50%, -50%);
+        background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+        overflow: hidden;
+    }
+    
+    .wave {
+        width: 1000px;
+        height: 972px;
+        position: absolute;
+        top: -25%;
+        left: 50%;
+        margin-left: -500px;
+        margin-top: -500px;
+        border-radius: 35%;
+        background: rgba(255, 255, 255, .75);
+        animation: wave 15s infinite linear;
+    }
+    
+    @keyframes wave {
+        from {
+            transform: rotate(0deg);
+        }
+        from {
+            transform: rotate(360deg);
+        }
+    }
+    
     #lower {
-        top: 550px;
+        top: 86%;
     }
     
     .Table>tbody>tr {

@@ -1,34 +1,34 @@
 import * as actionType from './actionType'
 import axios from 'axios'
 let total = []
-
+let copydTotal = []
 export const setCurrentData = (fullDate, meters, dayName) => {
   return {
     type: actionType.SET_CURRENT,
     date: fullDate,
-    meter: meters,
+    meter: meters
+  }
+}
+export const setMoreDates = (
+  date,
+  meter,
+  amount,
+  dayBefore,
+  currentLevel,
+  dayName
+) => {
+  return {
+    type: actionType.SET_MORE_DATES,
+    date: date,
+    meter: meter,
+    amount: amount,
+    yesterday: dayBefore,
+    currentLevel: currentLevel,
     day: dayName
   }
 }
 
-export const setDifferenceDates = (amount, dayBefore, currentLevel) => {
-  return {
-    type: actionType.SET_DIFFERENCE_AMOUNT,
-    amount: amount,
-    yesterday: dayBefore,
-    currentLevel: currentLevel
-  }
-}
-
-export const setLevels = (total, level) => {
-  return {
-    type: actionType.SET_LEVELS,
-    total: total,
-    level: level
-  }
-}
-
-export const initCurrentData = () => {
+export const initCurrentData = id => {
   return dispatch => {
     axios
       .get(
@@ -39,10 +39,8 @@ export const initCurrentData = () => {
         axios
           .get('https://data.gov.il' + r + '&limit=' + res.data.result.total)
           .then(res => {
-            total = total.concat(res.data.result.records)
-            let dayIndex = new Date(
-              res.data.result.records[0].Survey_Date
-            ).getDay()
+            total = total.concat(...res.data.result.records)
+            copydTotal = copydTotal.concat(...res.data.result.records)
             let date = res.data.result.records[0].Survey_Date.split('T')
               .splice(0, 1)
               .join('')
@@ -52,47 +50,49 @@ export const initCurrentData = () => {
             let meter = Math.abs(
               +res.data.result.records[0].Kinneret_Level
             ).toFixed(2)
-            dispatch(setCurrentData(date, meter, dayIndex))
+            dispatch(setCurrentData(date, meter))
           })
       })
   }
 }
 
-export const differnceBetweenDates = currentDate => {
+export const seeBackward = id => {
   return dispatch => {
-    // eslint-disable-next-line
-    total.filter((date, index) => {
-      if (
-        date.Survey_Date.includes(
-          currentDate
-            .split('.')
-            .reverse()
-            .join('-')
-        )
-      ) {
-        let newTotal = total.splice(index, index + 2)
-        dispatch(
-          setDifferenceDates(
-            Math.abs(
-              (newTotal[0].Kinneret_Level - newTotal[1].Kinneret_Level).toFixed(
-                3
-              )
+    total = total.sort(function (a, b) {
+      return a._id - b._id
+    })
+    let output = total
+      .sort((a, b) => a - b)
+      .filter(el => {
+        return el._id === id
+      })
+
+    output
+      .sort((a, b) => a - b)
+      .map(el => {
+        let dayIndex = new Date(el.Survey_Date).getDay()
+        return dispatch(
+          setMoreDates(
+            el.Survey_Date.split('T')
+              .splice(0, 1)
+              .join('')
+              .split('-')
+              .reverse()
+              .join('.'),
+            +Math.abs(+el.Kinneret_Level).toFixed(2),
+            (total[id].Kinneret_Level - total[id + 1].Kinneret_Level).toFixed(
+              3
             ),
-            newTotal[1].Survey_Date.split('T').splice(0, 1),
-            newTotal[0].Kinneret_Level
+            total[id].Survey_Date.split('T')
+              .splice(0, 1)
+              .join('')
+              .split('-')
+              .reverse()
+              .join('.'),
+            total[id].Kinneret_Level,
+            dayIndex
           )
         )
-      }
-    })
-  }
-}
-
-export const filterLevels = () => {
-  return dispatch => {
-    let newTotal = total.map(el => el.Kinneret_Level)
-    let s = newTotal.filter((level, index, self) => {
-      return self.indexOf(level) === index
-    })
-    dispatch(setLevels(total, s.length))
+      })
   }
 }

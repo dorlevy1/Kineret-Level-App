@@ -6,7 +6,7 @@
     margin: 0 60px;
 }
 
-@media (min-width: 375px) and (max-width:800px) {
+@media (min-width: 359px) and (max-width:800px) {
     .Container {
         margin: 0;
     }

@@ -1,0 +1,80 @@
+#right,
+#left {
+    width: 60px;
+    overflow: hidden;
+    height: 60px;
+    background: linear-gradient(65deg, #2dff7747, #3bb360e8);
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    top: 14%;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    transition: ease .3s;
+}
+
+#right:hover {
+    transition: ease-in-out .5s;
+    background: linear-gradient(65deg, #2dff77bf, #3bb36082);
+}
+
+.z-index {
+    z-index: 7;
+}
+
+.arrow {
+    font-size: 40px;
+    color: white;
+    padding-top: 7px;
+    z-index: 7;
+    padding-left: 5px;
+}
+
+#left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    left: 0 !important;
+}
+
+.opacity-left:hover,
+.opacity-right:hover {
+    opacity: 1;
+    z-index: 6;
+    transition: ease .5s;
+    background: linear-gradient(65deg, #2dff778f, #5cb1e2e8);
+}
+
+.opacity-left {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    left: 0 !important;
+}
+
+.opacity-right,
+.opacity-left {
+    cursor: pointer;
+    opacity: 0;
+    z-index: 6;
+    width: 60px;
+    overflow: hidden;
+    height: 60px;
+    background: linear-gradient(65deg, #2dff7747, #3bb360e8);
+    position: absolute;
+    right: 0;
+    top: 14%;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    transition: ease .3s;
+}
+
+.arrow-left {
+    font-size: 40px;
+    z-index: 7;
+    color: white;
+    padding-top: 10px;
+    padding-right: 5px;
+}

@@ -24,3 +24,11 @@
 .title {
     padding-top: 20px;
 }
+
+.z-index {
+    z-index: 6;
+}
+
+body {
+    background: #333;
+}
